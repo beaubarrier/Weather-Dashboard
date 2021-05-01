@@ -21,61 +21,112 @@
     Search for a city:<br>
     <div class="input-group mb-3">
 
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
+
+
+        <div class="input-group mb-3">
+            <button type="button" id="searchButton" class="btn btn-outline-secondary">Search</button>
+
+            <input type="text" class="form-control" id="searchInput"
+                aria-label="Text input with segmented dropdown button">
+        </div>
+
+        <div id="historySpot"></div>
+
+
+
+        <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
             aria-describedby="button-addon2" id="searchInput">
-        <button class="btn btn-outline-secondary" type="button" id="searchButton">Button</button>
+        <button class="btn btn-outline-secondary" type="button" id="searchButton">Button</button> -->
     </div>
+    <p id="date-display"> </p>
+
     <p id="cityName">City Name</p>
     <div class="card">
         <div class="card-body" id="mainCityCard">
-            <p id="tempDisplay"> </p>
             <p id="windDisplay"> </p>
         </div>
     </div>
+    <p id="tempDisplay"> </p>
+    <p id="tempIconDisplay"> </p>
+    <p id="humidDisplay"> </p>
+    <p id="windDisplay"> </p>
+    <p id="uvDisplay"> </p>
 
-
+    <h3>Five Daya Forecast </h3>
     <div class="row">
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title" id="card0-date"> </h5>
+                    <p class="card-text" id="card0-icon"> </p>
+                    <p class="card-text" id="card0-temp"> </p>
+                    <p class="card-text" id="card0-humid"> </p>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title" id="card1-date"> </h5>
+                    <p class="card-text" id="card1-icon"> </p>
+                    <p class="card-text" id="card1-temp"> </p>
+                    <p class="card-text" id="card1-humid"> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" id="card2-date"> </h5>
+                    <p class="card-text" id="card2-icon"> </p>
+                    <p class="card-text" id="card2-temp"> </p>
+                    <p class="card-text" id="card2-humid"> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card" id="searchHistory">
+                <div class="card-body">
+                    <h5 class="card-title" id="card3-date"> </h5>
+                    <p class="card-text" id="card3-icon"> </p>
+                    <p class="card-text" id="card3-temp"> </p>
+                    <p class="card-text" id="card3-humid"> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" id="card4-date"> </h5>
+                    <p class="card-text" id="card4-icon"> </p>
+                    <p class="card-text" id="card4-temp"> </p>
+                    <p class="card-text" id="card4-humid"> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> </h5>
+                    <p class="card-text" id="history"> </p>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title"></h5>
+                    <p class="card-text"> </p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js"
