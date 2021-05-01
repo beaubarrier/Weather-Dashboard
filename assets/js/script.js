@@ -1,16 +1,11 @@
 let todaysDate = moment().format('MM-DD-YYYY');
 let searchButton = $("#searchButton");
 let apiKey = '040c379ac50ebf6e6db25c1185879ee0';
-const searchHistory = [];
-
 
 $("#date-display").text(todaysDate)
 
-
-
 //display function_
 function displayInfo(lat, lon, cityName) {
-
 
     let apiLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&units=imperial&appid=` + apiKey;
 
@@ -19,37 +14,30 @@ function displayInfo(lat, lon, cityName) {
 
             response.json().then(function (oneCallData) {
                 console.log(oneCallData)
-
                 console.log(apiLink)
-                // iconId = data.weather[0].icon;
 
-
-
+                //Cleaning the old data_ 
                 let citySelectionCard = $("#mainCityCard");
                 let tempDisplay = $("#tempDisplay")
                 let tempIcon = $("#tempIconDisplay")
                 let humidDisplay = $("#humidDisplay")
                 let windDisplay = $("#windDisplay")
                 let uvDisplay = $("#uvDisplay")
-
-                //Cleaning the old data 
                 tempIcon.empty();
 
-
+                //sets HTML values_
                 citySelectionCard.text(cityName);
                 tempDisplay.text("Temperature: " + oneCallData.current.temp);
                 tempIcon.append(`<img src="http://openweathermap.org/img/wn/${oneCallData.current.weather[0].icon}.png"/>`);
                 humidDisplay.text("Humidity: " + oneCallData.current.humidity + "%");
-
-                // //need to add the the wind speed, will not work like the others. 
                 windDisplay.text("Wind Speed: " + oneCallData.current.wind_speed);
                 uvDisplay.text("UV Index: " + oneCallData.current.uvi);
 
-                //FORECAST WEATHER 
+                //forecast weather_
                 console.log(oneCallData.daily.length)
                 console.log("Day Forecast", oneCallData.daily)
                 if (oneCallData.daily.length > 0) {//
-                    //clears icons_
+                    //clears icons for forecast_
                     var dailyIconDisplay0 = $("#card0-icon")
                     var dailyIconDisplay1 = $("#card1-icon")
                     var dailyIconDisplay2 = $("#card2-icon")
@@ -60,8 +48,7 @@ function displayInfo(lat, lon, cityName) {
                     dailyIconDisplay2.empty();
                     dailyIconDisplay3.empty();
                     dailyIconDisplay4.empty();
-
-                    //CARD 0
+                    //card 0
                     var forecastDate = new Date(oneCallData.daily[0].dt * 1000).toLocaleDateString("en-US")
                     var forecastIcon = (`<img src="http://openweathermap.org/img/wn/${oneCallData.daily[0].weather[0].icon}.png"/>`)
                     var forecastTemp = ("Temperature: " + oneCallData.daily[0].temp.day);
@@ -70,7 +57,7 @@ function displayInfo(lat, lon, cityName) {
                     $("#card0-temp").text(forecastTemp);
                     $("#card0-humid").text(forecastHumid);
                     $("#card0-icon").append(forecastIcon);
-                    //CARD 1                     console.log(oneCallData.daily[0].humidity)
+                    //card 1                    
                     var forecastDate = new Date(oneCallData.daily[1].dt * 1000).toLocaleDateString("en-US")
                     var forecastTemp = ("Temperature: " + oneCallData.daily[1].temp.day);
                     var forecastIcon = (`<img src="http://openweathermap.org/img/wn/${oneCallData.daily[1].weather[0].icon}.png"/>`)
@@ -80,7 +67,7 @@ function displayInfo(lat, lon, cityName) {
                     $("#card1-temp").text(forecastTemp);
                     $("#card1-humid").text(forecastHumid);
                     $("#card1-icon").append(forecastIcon);
-                    //CARD 2
+                    //card 2
                     var forecastDate = new Date(oneCallData.daily[2].dt * 1000).toLocaleDateString("en-US")
                     var forecastTemp = ("Temperature: " + oneCallData.daily[2].temp.day);
                     var forecastIcon = (`<img src="http://openweathermap.org/img/wn/${oneCallData.daily[2].weather[0].icon}.png"/>`)
@@ -90,7 +77,7 @@ function displayInfo(lat, lon, cityName) {
                     $("#card2-temp").text(forecastTemp);
                     $("#card2-humid").text(forecastHumid);
                     $("#card2-icon").append(forecastIcon);
-                    //CARD 3
+                    //card 3
                     var forecastDate = new Date(oneCallData.daily[3].dt * 1000).toLocaleDateString("en-US")
                     var forecastTemp = ("Temperature: " + oneCallData.daily[3].temp.day);
                     var forecastIcon = (`<img src="http://openweathermap.org/img/wn/${oneCallData.daily[3].weather[0].icon}.png"/>`)
@@ -100,7 +87,7 @@ function displayInfo(lat, lon, cityName) {
                     $("#card3-temp").text(forecastTemp);
                     $("#card3-humid").text(forecastHumid);
                     $("#card3-icon").append(forecastIcon);
-                    //CARD 4
+                    //card 4
                     var forecastDate = new Date(oneCallData.daily[4].dt * 1000).toLocaleDateString("en-US")
                     var forecastTemp = ("Temperature: " + oneCallData.daily[4].temp.day);
                     var forecastIcon = (`<img src="http://openweathermap.org/img/wn/${oneCallData.daily[4].weather[0].icon}.png"/>`)
@@ -110,42 +97,31 @@ function displayInfo(lat, lon, cityName) {
                     $("#card4-temp").text(forecastTemp);
                     $("#card4-humid").text(forecastHumid);
                     $("#card4-icon").append(forecastIcon);
-
+                    //set localStorage for forecasts_
                     var key = cityName;
                     var value = oneCallData;
                     localStorage.setItem(key, value);
 
-                    createHistoryItem(key, value)
+                    createHistoryItem(key, value, cityName)
                 }
             })
-
         }
-
     })
-
-}//****** display function ends here_ ***********/
+}//display function ends here_ 
 
 
 //search button_
 searchButton.on("click", function (event) {
-    // createHistoryItem();
     event.preventDefault();
     let searchInput = $("#searchInput").val();
-    // let apiLink = `http://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=imperial&appid=` + apiKey;
     let apiLink = `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput},US&limit=5&appid=${apiKey}`;
-
-
 
     fetch(apiLink).then(function (response) {
         if (response.status == 200) {
-
             response.json().then(function (data) {
-
                 console.log(apiLink)
                 console.log(data)
-
                 displayInfo(data[0].lat, data[0].lon, data[0].name);
-
             })
         } else {
             alert("Please enter valid city name.")
@@ -154,43 +130,43 @@ searchButton.on("click", function (event) {
         .catch(function () {
             console.log("Bad Request")
         })
-
-
-
 })// search button ends here_
 
-
-
-
-
-
-function createHistoryItem() {
+//render search history function_
+function createHistoryItem(key, value, cityName) {
 
     var $item = $('<input type="button" value="" />')
     let searchInput = $("#searchInput").val();
+    console.log(key, value)
+    $item.on("click", function () {
+        localStorage.getItem(key, value)
+    })
     $item.val(searchInput)
     $item.appendTo("#historySpot")
     $item.on("click", function () {
-        let apiLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&units=imperial&appid=` + apiKey;
 
-        fetch(apiLink).then(function (response) {
-            if (response.status == 200) {
+        let citySelectionCard = $("#mainCityCard");
+        let tempDisplay = $("#tempDisplay")
+        let tempIcon = $("#tempIconDisplay")
+        let humidDisplay = $("#humidDisplay")
+        let windDisplay = $("#windDisplay")
+        let uvDisplay = $("#uvDisplay")
+        citySelectionCard.text(key)
+        tempDisplay.text("Temperature: " + value.current.temp)
+        humidDisplay.text("Humidity: " + value.current.humidity + "%");
+        windDisplay.text("Wind Speed: " + value.current.wind_speed);
+        uvDisplay.text("UV Index: " + value.current.uvi);
+        tempIcon.empty();
+        tempIcon.append(`<img src="http://openweathermap.org/img/wn/${value.current.weather[0].icon}.png"/>`);
 
-                response.json().then(function (oneCallData) {
-                    console.log(oneCallData)
-
-                    console.log(apiLink)
-
-                })
-            }
-
-        })
+        //**********************************************************************
+        //need to save the button to localStorage so it remains on page refresh_ 
+        // JSON.stringify($item)                 <-
+        // localStorage.setItem(cityName, $item) <- not working
+        //**********************************************************************
     })
-}
 
-    //     var key = cityName;
-    //     var value = oneCallData;
-    //     localStorage.setItem(key, value);
+}//search history function ends here_
 
 
 
