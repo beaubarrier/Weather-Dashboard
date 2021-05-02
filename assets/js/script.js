@@ -148,7 +148,7 @@ searchButton.on("click", function (event) {
 
 
 //render search history item function_
-function createHistoryItem(key, value, cityName, $item) {
+function createHistoryItem(key, value, cityName) {
     let cityButton = cityName + " button";
     let $item = $('<input type="button" id="savedCityButton"/>')
     let searchInput = $("#searchInput").val();
