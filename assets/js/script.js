@@ -146,11 +146,14 @@ searchButton.on("click", function (event) {
 // search button ends here_
 
 
+
 //render search history item function_
 function createHistoryItem(key, value, cityName, $item) {
     let cityButton = cityName + " button";
     let $item = $('<input type="button" id="savedCityButton"/>')
     let searchInput = $("#searchInput").val();
+
+    //
     localStorage.setItem(cityButton, $item)
     console.log(cityButton)
     console.log(key, value)
