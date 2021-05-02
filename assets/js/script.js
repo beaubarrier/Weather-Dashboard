@@ -4,7 +4,18 @@ let apiKey = '040c379ac50ebf6e6db25c1185879ee0';
 
 $("#date-display").text(todaysDate)
 
+const savedSearchButtonArray = Object.entries(localStorage).filter(([key]) => key.endsWith(' button'))
+//find item 0 and item 1 from the array, have them written to the HTML
+// $("#historySpot").append(savedSearchButtonArray[0])
+console.log(savedSearchButtonArray)
 //display function_
+
+// is making two of each and is just displaying as text not a clickable button.
+for (let i = 0; i < savedSearchButtonArray.length; i++) {
+    const element = savedSearchButtonArray[i];
+    $("#historySpot").append(savedSearchButtonArray)
+}
+
 function displayInfo(lat, lon, cityName) {
 
     let apiLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&units=imperial&appid=` + apiKey;
@@ -107,7 +118,8 @@ function displayInfo(lat, lon, cityName) {
             })
         }
     })
-}//display function ends here_ 
+}
+//display function ends here_ 
 
 
 //search button_
@@ -130,14 +142,19 @@ searchButton.on("click", function (event) {
         .catch(function () {
             console.log("Bad Request")
         })
-})// search button ends here_
+})
+// search button ends here_
 
-//render search history function_
-function createHistoryItem(key, value, cityName) {
 
-    var $item = $('<input type="button" value="" />')
+//render search history item function_
+function createHistoryItem(key, value, cityName, $item) {
+    let cityButton = cityName + " button";
+    let $item = $('<input type="button" id="savedCityButton"/>')
     let searchInput = $("#searchInput").val();
+    localStorage.setItem(cityButton, $item)
+    console.log(cityButton)
     console.log(key, value)
+
     $item.on("click", function () {
         localStorage.getItem(key, value)
     })
@@ -164,9 +181,10 @@ function createHistoryItem(key, value, cityName) {
         // JSON.stringify($item)                 <-
         // localStorage.setItem(cityName, $item) <- not working
         //**********************************************************************
+
     })
+}
+//search history function ends here_
 
-}//search history function ends here_
 
-
-
+// if(localStorage.getItem(cityButton))
