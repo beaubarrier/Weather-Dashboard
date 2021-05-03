@@ -205,7 +205,7 @@ function searchHistoryButtons() {
     for (var i = 0; i < searchHistory.length; i++) {
         // localStorage.getItem(localStorage.key("searchHistory"),
         console.log(searchHistory[i])
-        let $item = $(`<input type="button" id="savedCityButton" onclick = "function name(){}"> ${searchHistory[i]}</button>`)
+        let $item = $(`<input type="button" id="savedCityButton" onclick = "function populateData(){}"> ${searchHistory[i]}</button> `)
         $(historySpot).append($item);
 
     }
