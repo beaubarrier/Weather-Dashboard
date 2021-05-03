@@ -192,7 +192,7 @@ function createHistoryItem(key, value, cityName) {
         // JSON.stringify($item)                 <-
         // localStorage.setItem(cityName, $item) <- not working
         //**********************************************************************
-
+        populateHistory(key, value)
     })
 }
 //search history function ends here
@@ -205,7 +205,7 @@ function searchHistoryButtons() {
     for (var i = 0; i < searchHistory.length; i++) {
         // localStorage.getItem(localStorage.key("searchHistory"),
         console.log(searchHistory[i])
-        let $item = $(`<input type="button" id="savedCityButton" onclick = "function populateData(){}"> ${searchHistory[i]}</button> `)
+        let $item = $(`<input type="button" id="savedCityButton" value= ${searchHistory[i]}> </button> `)
         $(historySpot).append($item);
 
     }
@@ -213,3 +213,20 @@ function searchHistoryButtons() {
 }
 
 searchHistoryButtons();
+
+let savedCityButton = $("#savedCityButton")
+savedCityButton.on("click", function populateHistory(key, value) {
+    let citySelectionCard = $("#mainCityCard");
+    let tempDisplay = $("#tempDisplay")
+    let tempIcon = $("#tempIconDisplay")
+    let humidDisplay = $("#humidDisplay")
+    let windDisplay = $("#windDisplay")
+    let uvDisplay = $("#uvDisplay")
+    citySelectionCard.text(key)
+    tempDisplay.text("Temperature: " + value.current.temp)
+    humidDisplay.text("Humidity: " + value.current.humidity + "%");
+    windDisplay.text("Wind Speed: " + value.current.wind_speed);
+    uvDisplay.text("UV Index: " + value.current.uvi);
+    tempIcon.empty();
+    tempIcon.append(`<img src="http://openweathermap.org/img/wn/${value.current.weather[0].icon}.png"/>`);
+})
