@@ -1,20 +1,12 @@
 let todaysDate = moment().format('MM-DD-YYYY');
 let searchButton = $("#searchButton");
 let apiKey = '040c379ac50ebf6e6db25c1185879ee0';
+let historySpot = $("#historySpot")
+const searchHistory = []
 
 $("#date-display").text(todaysDate)
 
-const savedSearchButtonArray = Object.entries(localStorage).filter(([key]) => key.endsWith(' button'))
-//find item 0 and item 1 from the array, have them written to the HTML
-// $("#historySpot").append(savedSearchButtonArray[0])
-console.log(savedSearchButtonArray)
-//display function_
 
-// is making two of each and is just displaying as text not a clickable button.
-for (let i = 0; i < savedSearchButtonArray.length; i++) {
-    const element = savedSearchButtonArray[i];
-    $("#historySpot").append(savedSearchButtonArray)
-}
 
 function displayInfo(lat, lon, cityName) {
 
@@ -24,8 +16,8 @@ function displayInfo(lat, lon, cityName) {
         if (response.status == 200) {
 
             response.json().then(function (oneCallData) {
-                console.log(oneCallData)
-                console.log(apiLink)
+                // console.log(oneCallData)
+                // console.log(apiLink)
 
                 //Cleaning the old data_ 
                 let citySelectionCard = $("#mainCityCard");
@@ -45,8 +37,8 @@ function displayInfo(lat, lon, cityName) {
                 uvDisplay.text("UV Index: " + oneCallData.current.uvi);
 
                 //forecast weather_
-                console.log(oneCallData.daily.length)
-                console.log("Day Forecast", oneCallData.daily)
+                // console.log(oneCallData.daily.length)
+                // console.log("Day Forecast", oneCallData.daily)
                 if (oneCallData.daily.length > 0) {//
                     //clears icons for forecast_
                     var dailyIconDisplay0 = $("#card0-icon")
@@ -131,8 +123,8 @@ searchButton.on("click", function (event) {
     fetch(apiLink).then(function (response) {
         if (response.status == 200) {
             response.json().then(function (data) {
-                console.log(apiLink)
-                console.log(data)
+                // console.log(apiLink)
+                // console.log(data)
                 displayInfo(data[0].lat, data[0].lon, data[0].name);
             })
         } else {
@@ -142,6 +134,7 @@ searchButton.on("click", function (event) {
         .catch(function () {
             console.log("Bad Request")
         })
+
 })
 // search button ends here_
 
@@ -149,15 +142,22 @@ searchButton.on("click", function (event) {
 
 //render search history item function_
 function createHistoryItem(key, value, cityName) {
-    let cityButton = cityName + " button";
+    // let cityButton = cityName + " button";
     let $item = $('<input type="button" id="savedCityButton"/>')
     let searchInput = $("#searchInput").val();
 
-    //
-    localStorage.setItem(cityButton, $item)
-    console.log(cityButton)
-    console.log(key, value)
+    // localStorage.getItem(cityName)
 
+    // localStorage.setItem(cityButton, $item)
+    // console.log(cityButton)
+    // console.log(key, value)
+
+    // JSON.parse(searchHistory)
+    searchHistory.push(cityName)
+    // JSON.stringify(searchHistory)
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory))
+
+    console.log(JSON.stringify(searchHistory))
     $item.on("click", function () {
         localStorage.getItem(key, value)
     })
@@ -187,7 +187,16 @@ function createHistoryItem(key, value, cityName) {
 
     })
 }
-//search history function ends here_
+//search history function ends here
+function searchHistoryButtons() {
+    let itemButton = $('<input type="button" id="savedCityButton"/>')
+    localStorage.getItem(JSON.parse(searchHistory));
+    // JSON.parse(searchHistory);
+    // historyClear.empty();
+    for (let index = 0; index < searchHistory.length; index++) {
+        // const element = searchHistory[index];
+        historySpot.append(itemButton)
 
-
-// if(localStorage.getItem(cityButton))
+    }
+}
+searchHistoryButtons();
