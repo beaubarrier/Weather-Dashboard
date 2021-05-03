@@ -2,7 +2,7 @@ let todaysDate = moment().format('MM-DD-YYYY');
 let searchButton = $("#searchButton");
 let apiKey = '040c379ac50ebf6e6db25c1185879ee0';
 let historySpot = $("#historySpot")
-const searchHistory = []
+let searchHistory = []
 
 $("#date-display").text(todaysDate)
 
@@ -189,10 +189,12 @@ function createHistoryItem(key, value, cityName) {
 }
 //search history function ends here
 function searchHistoryButtons() {
-    let itemButton = $('<input type="button" id="savedCityButton"/>')
-    localStorage.getItem(JSON.parse(searchHistory));
-    // JSON.parse(searchHistory);
+    let itemButton = $('<input type="button"/>')
+    searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
     // historyClear.empty();
+    itemButton.val(searchHistory)
+
+
     for (let index = 0; index < searchHistory.length; index++) {
         // const element = searchHistory[index];
         historySpot.append(itemButton)
