@@ -107,15 +107,16 @@ function displayInfo(lat, lon, cityName) {
                     createHistoryItem(key, value, cityName)
 
 
-                    // if (uvDisplay > 0 && uvDisplay < 2) {
-                    //    $uvDisplay.css("color", "green")
-                    // }
 
 
+                }
+                if (uvDisplay > 0 && uvDisplay < 2) {
+                    uvDisplay.css("color", "green")
                 }
             })
         }
     })
+
 }
 //display function ends here_ 
 
@@ -123,32 +124,17 @@ function displayInfo(lat, lon, cityName) {
 //search button_
 searchButton.on("click", function (event) {
     event.preventDefault();
-    let searchInput = $("#searchInput").val();
-    let apiLink = `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput},US&limit=5&appid=${apiKey}`;
 
-    fetch(apiLink).then(function (response) {
-        if (response.status == 200) {
-            response.json().then(function (data) {
-                // console.log(apiLink)
-                // console.log(data)
-                displayInfo(data[0].lat, data[0].lon, data[0].name);
-            })
-        } else {
-            alert("Please enter valid city name.")
-        }
-    })
-        .catch(function () {
-            console.log("Bad Request")
-        })
+    apiCall();
 
 })
-// search button ends here_
 
 
 
 //render search history item function_
 function createHistoryItem(key, value, cityName) {
     // let cityButton = cityName + " button";
+
     let $item = $('<input type="button" id="savedCityButton"/>')
     let searchInput = $("#searchInput").val();
 
@@ -159,11 +145,12 @@ function createHistoryItem(key, value, cityName) {
     // console.log(key, value)
 
     // JSON.parse(searchHistory)
-    searchHistory.push(cityName)
+    if (searchHistory.includes(cityName) === false) {
+        searchHistory.push(cityName);
+    }
     // JSON.stringify(searchHistory)
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory))
 
-    $item.empty()
 
     console.log(JSON.stringify(searchHistory))
     $item.on("click", function () {
@@ -192,21 +179,27 @@ function createHistoryItem(key, value, cityName) {
         // JSON.stringify($item)                 <-
         // localStorage.setItem(cityName, $item) <- not working
         //**********************************************************************
-        populateHistory(key, value)
+
     })
 }
 //search history function ends here
 function searchHistoryButtons() {
     // let itemButton = $('<input type="button"/>')
+
     searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
     // // historyClear.empty();
     // historySpot.append(searchHistory)
     // let $item = $('<input type="button" id="savedCityButton"/>')
     for (var i = 0; i < searchHistory.length; i++) {
         // localStorage.getItem(localStorage.key("searchHistory"),
+
         console.log(searchHistory[i])
         let $item = $(`<input type="button" id="savedCityButton" value= ${searchHistory[i]}> </button> `)
-        $(historySpot).append($item);
+
+        $(historySpot).append($item)
+
+
+
 
     }
 
@@ -215,18 +208,28 @@ function searchHistoryButtons() {
 searchHistoryButtons();
 
 let savedCityButton = $("#savedCityButton")
-savedCityButton.on("click", function populateHistory(key, value) {
-    let citySelectionCard = $("#mainCityCard");
-    let tempDisplay = $("#tempDisplay")
-    let tempIcon = $("#tempIconDisplay")
-    let humidDisplay = $("#humidDisplay")
-    let windDisplay = $("#windDisplay")
-    let uvDisplay = $("#uvDisplay")
-    citySelectionCard.text(key)
-    tempDisplay.text("Temperature: " + value.current.temp)
-    humidDisplay.text("Humidity: " + value.current.humidity + "%");
-    windDisplay.text("Wind Speed: " + value.current.wind_speed);
-    uvDisplay.text("UV Index: " + value.current.uvi);
-    tempIcon.empty();
-    tempIcon.append(`<img src="http://openweathermap.org/img/wn/${value.current.weather[0].icon}.png"/>`);
+savedCityButton.on("click", function populateHistory() {
+    apiCall();
+
 })
+
+
+function apiCall() {
+    let searchInput = $("#searchInput").val();
+
+    let apiLink = `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput},US&limit=5&appid=${apiKey}`;
+    fetch(apiLink).then(function (response) {
+        if (response.status == 200) {
+            response.json().then(function (data) {
+                // console.log(apiLink)
+                // console.log(data)
+                displayInfo(data[0].lat, data[0].lon, data[0].name);
+            })
+        } else {
+            alert("Please enter valid city name.")
+        }
+    })
+        .catch(function () {
+            console.log("Bad Request")
+        })
+}
