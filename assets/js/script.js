@@ -189,16 +189,18 @@ function createHistoryItem(key, value, cityName) {
 }
 //search history function ends here
 function searchHistoryButtons() {
-    let itemButton = $('<input type="button"/>')
+    // let itemButton = $('<input type="button"/>')
     searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-    // historyClear.empty();
-    itemButton.val(searchHistory)
+    // // historyClear.empty();
+    // historySpot.append(searchHistory)
+    let $item = $('<input type="button" id="savedCityButton"/>')
+    for (var i = 0; i < localStorage.length; i++) {
+        // localStorage.getItem(localStorage.key("searchHistory"),
 
-
-    for (let index = 0; index < searchHistory.length; index++) {
-        // const element = searchHistory[index];
-        historySpot.append(itemButton)
+        $(historySpot).append(searchHistory)
 
     }
+
 }
+
 searchHistoryButtons();
