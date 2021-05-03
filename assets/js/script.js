@@ -7,7 +7,6 @@ let searchHistory = []
 $("#date-display").text(todaysDate)
 
 
-
 function displayInfo(lat, lon, cityName) {
 
     let apiLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&units=imperial&appid=` + apiKey;
@@ -106,6 +105,13 @@ function displayInfo(lat, lon, cityName) {
                     localStorage.setItem(key, value);
 
                     createHistoryItem(key, value, cityName)
+
+
+                    // if (uvDisplay > 0 && uvDisplay < 2) {
+                    //    $uvDisplay.css("color", "green")
+                    // }
+
+
                 }
             })
         }
@@ -157,6 +163,8 @@ function createHistoryItem(key, value, cityName) {
     // JSON.stringify(searchHistory)
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory))
 
+    $item.empty()
+
     console.log(JSON.stringify(searchHistory))
     $item.on("click", function () {
         localStorage.getItem(key, value)
@@ -193,11 +201,12 @@ function searchHistoryButtons() {
     searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
     // // historyClear.empty();
     // historySpot.append(searchHistory)
-    let $item = $('<input type="button" id="savedCityButton"/>')
-    for (var i = 0; i < localStorage.length; i++) {
+    // let $item = $('<input type="button" id="savedCityButton"/>')
+    for (var i = 0; i < searchHistory.length; i++) {
         // localStorage.getItem(localStorage.key("searchHistory"),
-
-        $(historySpot).append(searchHistory)
+        console.log(searchHistory[i])
+        let $item = $(`<input type="button" id="savedCityButton" onclick = "function name(){}"> ${searchHistory[i]}</button>`)
+        $(historySpot).append($item);
 
     }
 
